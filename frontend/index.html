@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#08080b"
+    >
+
+    <title>Pysic</title>
+
+    <link
+        rel="stylesheet"
+        href="/style.css"
+    >
+</head>
+
+<body>
+
+<div id="background-network"></div>
+
+<div class="app">
+
+    <!-- =====================================================
+         SIDEBAR
+         ===================================================== -->
+
+    <aside class="sidebar">
+
+        <div class="brand">
+            <div class="brand-mark">P</div>
+
+            <div class="brand-name">
+                Pysic
+            </div>
+        </div>
+
+
+        <nav class="nav">
+
+            <button
+                class="nav-item active"
+                data-page="home"
+            >
+                <span class="nav-icon">[]</span>
+                <span>Home</span>
+            </button>
+
+            <button
+                class="nav-item"
+                data-page="search"
+            >
+                <span class="nav-icon">/</span>
+                <span>Search</span>
+            </button>
+
+            <button
+                class="nav-item"
+                data-page="liked"
+            >
+                <span class="nav-icon">*</span>
+                <span>Liked Songs</span>
+            </button>
+
+            <button
+                class="nav-item"
+                data-page="cache"
+            >
+                <span class="nav-icon">=</span>
+                <span>Cached</span>
+            </button>
+
+        </nav>
+
+
+        <div class="sidebar-section">
+
+            <div class="sidebar-title">
+                YOUR LIBRARY
+
+                <button
+                    id="create-playlist-sidebar"
+                    class="sidebar-add"
+                    title="Create playlist"
+                >
+                    +
+                </button>
+            </div>
+
+            <div
+                id="sidebar-playlists"
+                class="sidebar-playlists"
+            ></div>
+
+        </div>
+
+
+        <div class="sidebar-bottom">
+
+            <button
+                class="profile-mini"
+                id="open-profile"
+            >
+
+                <div
+                    class="profile-avatar"
+                    id="sidebar-avatar"
+                >
+                    P
+                </div>
+
+                <div class="profile-mini-info">
+
+                    <strong id="sidebar-profile-name">
+                        Listener
+                    </strong>
+
+                    <span>
+                        Profile
+                    </span>
+
+                </div>
+
+                <span class="profile-arrow">
+                    >
+                </span>
+
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- =====================================================
+         MAIN
+         ===================================================== -->
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <button
+                    id="back-button"
+                    class="round-button"
+                    title="Back"
+                >
+                    <
+                </button>
+
+                <button
+                    id="forward-button"
+                    class="round-button"
+                    title="Forward"
+                >
+                    >
+                </button>
+
+            </div>
+
+
+            <div class="global-search">
+
+                <span class="search-symbol">
+                    /
+                </span>
+
+                <input
+                    id="global-search-input"
+                    type="text"
+                    autocomplete="off"
+                    placeholder="What do you want to listen to?"
+                >
+
+                <button
+                    id="clear-search"
+                    class="search-clear hidden"
+                >
+                    x
+                </button>
+
+            </div>
+
+
+            <button
+                id="top-profile"
+                class="top-profile"
+            >
+
+                <div
+                    class="top-avatar"
+                    id="top-avatar"
+                >
+                    P
+                </div>
+
+                <span id="top-profile-name">
+                    Listener
+                </span>
+
+                <span>
+                    >
+                </span>
+
+            </button>
+
+        </header>
+
+
+        <!-- =================================================
+             CONTENT
+             ================================================= -->
+
+        <div
+            id="content"
+            class="content"
+        ></div>
+
+    </main>
+
+</div>
+
+
+<!-- =========================================================
+     PLAYER
+     ========================================================= -->
+
+<footer class="player">
+
+    <div class="player-song">
+
+        <div
+            class="player-cover"
+            id="player-cover"
+        >
+            P
+        </div>
+
+        <div class="player-song-info">
+
+            <div
+                id="player-title"
+                class="player-title"
+            >
+                Nothing playing
+            </div>
+
+            <div
+                id="player-artist"
+                class="player-artist"
+            >
+                Choose something to listen to
+            </div>
+
+        </div>
+
+        <button
+            id="player-like"
+            class="player-like"
+            title="Like"
+        >
+            *
+        </button>
+
+    </div>
+
+
+    <div class="player-center">
+
+        <div class="player-controls">
+
+            <button
+                id="previous-button"
+                class="player-control"
+                title="Previous"
+            >
+                |<
+            </button>
+
+            <button
+                id="skip-back-button"
+                class="player-control small"
+                title="Back 10 seconds"
+            >
+                -10
+            </button>
+
+            <button
+                id="play-button"
+                class="play-button"
+            >
+                >
+            </button>
+
+            <button
+                id="skip-forward-button"
+                class="player-control small"
+                title="Forward 10 seconds"
+            >
+                +10
+            </button>
+
+            <button
+                id="next-button"
+                class="player-control"
+                title="Next"
+            >
+                >|
+            </button>
+
+        </div>
+
+
+        <div class="progress-area">
+
+            <span
+                id="current-time"
+                class="time"
+            >
+                0:00
+            </span>
+
+            <input
+                id="progress"
+                type="range"
+                min="0"
+                max="100"
+                value="0"
+            >
+
+            <span
+                id="duration-time"
+                class="time"
+            >
+                0:00
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="player-right">
+
+        <button
+            id="loop-button"
+            class="player-control"
+            title="Loop"
+        >
+            @
+        </button>
+
+        <span class="volume-symbol">
+            ~
+        </span>
+
+        <input
+            id="volume"
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            value="0.8"
+        >
+
+    </div>
+
+</footer>
+
+
+<!-- =========================================================
+     AUDIO
+     ========================================================= -->
+
+<audio id="audio"></audio>
+
+
+<!-- =========================================================
+     TOASTS
+     ========================================================= -->
+
+<div
+    id="toast-container"
+    class="toast-container"
+></div>
+
+
+<!-- =========================================================
+     PLAYLIST PICKER
+     ========================================================= -->
+
+<div
+    id="playlist-modal"
+    class="modal-backdrop hidden"
+>
+
+    <div class="modal playlist-picker">
+
+        <div class="modal-header">
+
+            <div>
+
+                <span class="modal-eyebrow">
+                    LIBRARY
+                </span>
+
+                <h2>
+                    Add to playlist
+                </h2>
+
+                <p>
+                    Choose where this song should go.
+                </p>
+
+            </div>
+
+            <button
+                class="modal-close"
+                onclick="closePlaylistModal()"
+            >
+                x
+            </button>
+
+        </div>
+
+
+        <div
+            id="playlist-picker-list"
+            class="playlist-picker-list"
+        ></div>
+
+
+        <button
+            class="modal-secondary"
+            onclick="closePlaylistModal()"
+        >
+            Cancel
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     PLAYLIST CREATE MODAL
+     ========================================================= -->
+
+<div
+    id="create-playlist-modal"
+    class="modal-backdrop hidden"
+>
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div>
+
+                <span class="modal-eyebrow">
+                    NEW PLAYLIST
+                </span>
+
+                <h2>
+                    Create playlist
+                </h2>
+
+            </div>
+
+            <button
+                class="modal-close"
+                id="close-create-playlist"
+            >
+                x
+            </button>
+
+        </div>
+
+
+        <label class="field">
+
+            <span>
+                Playlist name
+            </span>
+
+            <input
+                id="playlist-name-input"
+                maxlength="60"
+                placeholder="My playlist"
+            >
+
+        </label>
+
+
+        <label class="image-upload">
+
+            <input
+                id="playlist-image-input"
+                type="file"
+                accept="image/*"
+            >
+
+            <div
+                id="playlist-image-preview"
+                class="image-upload-preview"
+            >
+                +
+            </div>
+
+            <div>
+                <strong>
+                    Playlist image
+                </strong>
+
+                <span>
+                    Optional
+                </span>
+            </div>
+
+        </label>
+
+
+        <div class="modal-actions">
+
+            <button
+                class="modal-secondary"
+                id="cancel-create-playlist"
+            >
+                Cancel
+            </button>
+
+            <button
+                class="accent-button"
+                id="confirm-create-playlist"
+            >
+                Create
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     DELETE PLAYLIST MODAL
+     ========================================================= -->
+
+<div
+    id="delete-playlist-modal"
+    class="modal-backdrop hidden"
+>
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div>
+
+                <span class="modal-eyebrow danger">
+                    DELETE PLAYLIST
+                </span>
+
+                <h2>
+                    Are you sure?
+                </h2>
+
+                <p>
+                    This cannot be undone.
+                </p>
+
+            </div>
+
+            <button
+                class="modal-close"
+                id="close-delete-playlist"
+            >
+                x
+            </button>
+
+        </div>
+
+
+        <div class="delete-warning">
+
+            <span>
+                !
+            </span>
+
+            <div>
+                <strong id="delete-playlist-title">
+                    Playlist
+                </strong>
+
+                <p>
+                    Type the playlist name below to confirm.
+                </p>
+            </div>
+
+        </div>
+
+
+        <label class="field">
+
+            <span>
+                Playlist name
+            </span>
+
+            <input
+                id="delete-playlist-input"
+                autocomplete="off"
+            >
+
+        </label>
+
+
+        <div class="modal-actions">
+
+            <button
+                class="modal-secondary"
+                id="cancel-delete-playlist"
+            >
+                Cancel
+            </button>
+
+            <button
+                class="danger-button"
+                id="confirm-delete-playlist"
+                disabled
+            >
+                Delete playlist
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     PROFILE MODAL
+     ========================================================= -->
+
+<div
+    id="profile-modal"
+    class="modal-backdrop hidden"
+>
+
+    <div class="modal">
+
+        <div class="modal-header">
+
+            <div>
+
+                <span class="modal-eyebrow">
+                    PROFILE
+                </span>
+
+                <h2>
+                    Your profile
+                </h2>
+
+            </div>
+
+            <button
+                class="modal-close"
+                id="close-profile"
+            >
+                x
+            </button>
+
+        </div>
+
+
+        <div class="profile-editor">
+
+            <label
+                class="profile-upload"
+                title="Change profile picture"
+            >
+
+                <input
+                    id="profile-image-input"
+                    type="file"
+                    accept="image/*"
+                >
+
+                <div
+                    id="profile-preview"
+                    class="profile-preview"
+                >
+                    P
+                </div>
+
+                <span>
+                    Change picture
+                </span>
+
+            </label>
+
+
+            <label class="field">
+
+                <span>
+                    Display name
+                </span>
+
+                <input
+                    id="profile-name-input"
+                    maxlength="32"
+                    placeholder="Listener"
+                >
+
+            </label>
+
+        </div>
+
+
+        <div class="modal-actions">
+
+            <button
+                class="modal-secondary"
+                id="cancel-profile"
+            >
+                Cancel
+            </button>
+
+            <button
+                class="accent-button"
+                id="save-profile"
+            >
+                Save changes
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="/app.js"></script>
+
+</body>
+</html>
